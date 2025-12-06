@@ -39,7 +39,7 @@ jobs:
           pytest --cov --cov-report=xml
 
       - name: Upload coverage to CodeAnt AI
-        uses: CodeAnt-AI/codeant-coverage-action@v0.0.1
+        uses: CodeAnt-AI/codeant-coverage-action@v0.0.5
         with:
           access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
           coverage_file: coverage.xml
@@ -49,7 +49,7 @@ jobs:
 
 ```yaml
 - name: Upload coverage to CodeAnt AI
-  uses: CodeAnt-AI/codeant-coverage-action@v0.0.1
+  uses: CodeAnt-AI/codeant-coverage-action@v0.0.5
   with:
     access_token: ${{ secrets.ACCESS_TOKEN_GITHUB }}
     coverage_file: coverage.json
