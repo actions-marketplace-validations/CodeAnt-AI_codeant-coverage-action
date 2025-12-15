@@ -63,7 +63,7 @@ runs:
       env:
         ACCESS_TOKEN: ${{ inputs.access_token }}
         REPO_NAME: ${{ github.repository }}
-        COMMIT_ID: ${{ github.sha }}
+        COMMIT_ID: ${{ github.event.pull_request.head.sha || github.sha }}
         BRANCH: ${{ github.ref_name }}
         COVERAGE_FILE: ${{ inputs.coverage_file }}
         PLATFORM: ${{ inputs.platform }}
