@@ -43,8 +43,9 @@ runs:
       env:
         API_BASE: ${{ inputs.api_base }}
       run: |
-        curl -sS -X GET "${API_BASE}/pr/analysis/coverage/script/get" \
-        --output upload_coverage.sh.b64
+        curl -sS --fail --retry 3 --retry-delay 2 --retry-all-errors \
+          -X GET "${API_BASE}/pr/analysis/coverage/script/get" \
+          --output upload_coverage.sh.b64
 
     - name: Make script executable
       shell: bash
@@ -52,7 +53,11 @@ runs:
         API_BASE: ${{ inputs.api_base }}
       run: |
         if [ "$API_BASE" = "https://api.codeant.ai" ]; then
-          base64 -d upload_coverage.sh.b64 > upload_coverage.sh
+          if ! base64 -d upload_coverage.sh.b64 > upload_coverage.sh; then
+            echo "Failed to decode script. Raw response:" >&2
+            cat upload_coverage.sh.b64 >&2
+            exit 1
+          fi
         else
           mv upload_coverage.sh.b64 upload_coverage.sh
         fi
